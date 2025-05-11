@@ -1,11 +1,13 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss'],
   // 1. add change detection strategy here
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
   counter = 0;
