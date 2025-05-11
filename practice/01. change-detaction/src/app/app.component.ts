@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, inject } from '@angular/core';
 import { Component } from '@angular/core';
 
 @Component({
@@ -13,6 +13,7 @@ export class AppComponent {
   counter = 0;
 
   // 2. inject ChangeDetectorRef here
+  changeDetector = inject(ChangeDetectorRef);
 
   constructor() {
     setInterval(() => {
@@ -21,6 +22,9 @@ export class AppComponent {
     }, 1000);
 
     // 3. Add another interval that calls detectChanges() every 5 seconds
+    setInterval(() => {
+      this.changeDetector.detectChanges();     
+    }, 5000);
   }
 
 }
