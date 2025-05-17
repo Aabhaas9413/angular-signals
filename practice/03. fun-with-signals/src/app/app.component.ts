@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +18,9 @@ export class AppComponent {
 
   // 3. replace with a computed signal that emits the sum of the first and second numbers
   readonly sum = this.firstNumber() + this.secondNumber();
-
+  readonly derivedSum = computed( () => {
+    return this.firstNumber() + this.secondNumber();  })
+    readonly derivedSumDirect = computed( () => { this.sum }); 
   setSecondSignalTo10() {
     // 4. set the second number signal to 10
     this.secondNumber.set(10);
