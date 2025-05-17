@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, effect, signal } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -30,6 +30,7 @@ export class AppComponent {
     // 5. increment the first number signal by 1 but only if it's less than 10
     if (this.firstNumber() < 10) {
       this.firstNumber.set(this.firstNumber() + 1);
+      this.firstNumber.set(this.firstNumber() + 1);
     }
   }
 
@@ -46,6 +47,13 @@ export class AppComponent {
 
   constructor() {
     // 7. Define an effect that displays both signals to the console whenever any of them changes
-    
+    effect(() => {
+      console.log('First Number:', this.firstNumber());
+      console.log('Second Number:', this.secondNumber());
+      console.log('Sum:', this.derivedSum());
+      //cannot modify the signal inside the effect
+      // this.firstNumber.set(10); // This will throw an exception
+      // this.secondNumber.set(10); // This will throw an exception
+    });
   }
 }
