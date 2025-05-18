@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 
 @Component({
   selector: 'app-counter',
@@ -11,6 +11,7 @@ export class CounterComponent {
   readonly counter = signal(0);
 
   // 1. Inject the destroyRef here
+  readonly destroyRef = inject(DestroyRef);
   // 2. Inject the injector here
 
   constructor() {
@@ -19,6 +20,9 @@ export class CounterComponent {
     }, 1000);
 
     // 3. Use the destroyRef to clear the interval (use `clearInterval(int)`)
+    this.destroyRef.onDestroy(() => {
+      clearInterval(int);
+    });
   }
 
   // 4. Create an effect when clicking a button
