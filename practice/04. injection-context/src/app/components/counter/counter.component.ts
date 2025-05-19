@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { Component, DestroyRef, effect, EffectRef, inject, Injector, runInInjectionContext, signal } from '@angular/core';
 
 @Component({
   selector: 'app-counter',
@@ -13,6 +13,8 @@ export class CounterComponent {
   // 1. Inject the destroyRef here
   readonly destroyRef = inject(DestroyRef);
   // 2. Inject the injector here
+  private injector = inject(Injector);
+  ef:EffectRef|null  = null;
 
   constructor() {
     const int = setInterval(() => {
@@ -27,10 +29,15 @@ export class CounterComponent {
 
   // 4. Create an effect when clicking a button
   startEffect() {
+   this.ef =  effect(() => {
+      console.log('Counter: ', this.counter());
+    }, {
+      injector: this.injector});
   }
 
   // 5. Stop the effect when clicking another button
   stopEffect() {
+   this.ef?.destroy();
   }
 
 }
