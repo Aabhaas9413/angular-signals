@@ -38,6 +38,7 @@ export class CounterComponent {
   // 5. Stop the effect when clicking another button
   stopEffect() {
    this.ef?.destroy();
+    this.ef = null;
   }
 
 }
