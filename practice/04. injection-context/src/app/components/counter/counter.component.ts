@@ -41,4 +41,27 @@ export class CounterComponent {
     this.ef = null;
   }
 
+  x = signal(0);
+  isLarge = signal(false);
+
+  increment(){
+    this.x.update(v => v + 1);
+  }
+
+  check(){
+   effect(async () => {
+    if(this.x() > 5 && this.x() < 10){
+     await new Promise((res) => {
+        setTimeout(() => {
+          res(true);
+        }, 10);
+      });
+      this.isLarge.set(true);
+    }
+   }, 
+   {
+    injector: this.injector
+  });
+  }
+
 }
