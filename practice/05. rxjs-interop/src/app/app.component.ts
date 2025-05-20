@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, Injector, OnInit, Signal, signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
 
@@ -22,7 +22,8 @@ export class AppComponent implements OnInit {
   });
 
   // 2. Convert the observable to a signal called number from the number$ observable.
-  number = toSignal(this.number$);
+  number = toSignal(this.number$, { initialValue: 0 });
+  number2: Signal<number> = signal(0);
 
   // 3. Add an element in the UI that displays the value of the 'number' signal.
   
@@ -41,10 +42,25 @@ export class AppComponent implements OnInit {
     console.log('Name changed:', name);
     });
   }
-
+ injector = inject(Injector)
 
   ngOnInit() {
     // 6. challenge - repeat steps 1 - 4 in this method
+  const number2$ = new Observable<number>(subscriber => {
+    let count = 0;
+    const intervalId = setInterval(() => {
+      subscriber.next(count++);
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  });
+   this.number2 = toSignal(number2$, { initialValue: 0, injector: this.injector });
+
+   const myName2$ = toObservable(this.myName, { injector: this.injector });
+    myName2$.subscribe(name => {
+        console.log('Name changed 2:', name);
+      });
+
   }
 
 }
