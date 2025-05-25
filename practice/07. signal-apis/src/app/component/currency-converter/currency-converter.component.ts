@@ -10,24 +10,11 @@ import { CommonModule } from '@angular/common';
   styleUrl: './currency-converter.component.scss', 
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CurrencyConverterComponent implements OnChanges {
-  
-  @Input({required: true})
-  amount!: number;
+export class CurrencyConverterComponent  {
+  readonly amount = input.required<number>();
+  readonly currency = input.required<string>();
 
-  @Input({required: true})
-  currency!: string;
-
-  rate = 1;
-  converted = 0;
-
-
-  ngOnChanges(): void {
-    this.rate = RATES[this.currency];
-    this.converted = this.amount * this.rate;    
-  }
-
-
-
+  rate = computed(() => RATES[this.currency()]);
+  converted = computed(() => this.amount() * this.rate());
 
 }
